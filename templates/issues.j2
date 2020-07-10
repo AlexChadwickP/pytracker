@@ -1,0 +1,109 @@
+{% extends "components/base.j2" %}
+{% block content %}
+    <!-- TITLE -->
+    <section class="hero has-background-danger-dark">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title has-text-danger-light">Open Issues</h1>
+            </div>
+        </div>
+    </section>
+
+    <!-- FORM TO ADD ISSUE -->
+    <div class="container mt-5">
+        <form action="{{ url_for('issues') }}" method="post">
+            <div class="field">
+                <div class="container">
+                    <label class="label has-text-light">Issue name</label>
+                    <div class="control">
+                        <input name="name" type="text" class="input has-background-dark has-text-light" placeholder="Issue title">
+                    </div>
+                    <br>
+                    <label class="label has-text-light">Issue description</label>
+                    <div class="control">
+                        <textarea name="description" class="textarea has-background-dark has-text-light" placeholder="E.g bug on line 32 in app.py"></textarea>
+                    </div>
+                    <br>
+                    <label class="label has-text-light">Tags</label>
+                    <div class="control">
+                        <input name="tags" type="text" class="input has-background-dark has-text-light" placeholder="Type in tags separated by comas without any spaces!">
+                    </div>
+                    <br>
+                    <div class="control">
+                        <button class="button is-danger">Open Issue</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- LIST ALL ISSUES -->
+    {% for issue in issues %}
+        {% if not issue.resolved and not tag %}
+        <div class="container mt-5 mb-5">
+            <div class="card">
+                <div class="card-content has-background-dark">
+                    <p class="title has-text-white">
+                        {{ issue.name }}
+                    </p>
+                    <p class="subtitle has-text-light">
+                        {{ issue.description }} {{ issue.resolved }}
+                    </p>
+                    {% for tag in issue.tags %}
+                        <span class="tag is-info">
+                            {{ tag }}
+                        </span>
+                    {% endfor %}
+                </div>
+                <footer class="card-footer has-background-success-dark">
+                    <p class="card-footer-item">
+                    <span>
+                        <a href='/set_resolved/{{ issue._id }}' class="has-text-success-light">Mark as Resolved</a>
+                    </span>
+                    </p>
+                </footer>
+            </div>
+        </div>
+        {% else %}
+            {% if tag and not issue.resolved %}
+                {% for tags in issue.tags %}
+                    {% if tag == tags %}
+                        <div class="container mt-5 mb-5">
+            <div class="card">
+                <div class="card-content has-background-dark">
+                    <p class="title has-text-white">
+                        {{ issue.name }}
+                    </p>
+                    <p class="subtitle has-text-light">
+                        {{ issue.description }} {{ issue.resolved }}
+                    </p>
+                    {% for tag in issue.tags %}
+                        <span class="tag is-info">
+                            {{ tag }}
+                        </span>
+                    {% endfor %}
+                </div>
+                <footer class="card-footer has-background-success-dark">
+                    <p class="card-footer-item">
+                    <span>
+                        <a href='/set_resolved/{{ issue._id }}' class="has-text-success-light">Mark as Resolved</a>
+                    </span>
+                    </p>
+                </footer>
+            </div>
+        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+    {% if  not found_issue %}
+    <!-- IN THE CASE THERE ARE NO ISSUES! -->
+        <section class="hero has-background-danger-dark mt-3">
+            <div class="hero-body">
+                <div class="container">
+                    <h1 class="title has-text-danger-light">You've reached the end of your issues!</h1>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+{% endblock %}

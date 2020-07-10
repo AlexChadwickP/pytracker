@@ -1,0 +1,53 @@
+{% extends "components/base.j2" %}
+{% block content %}
+    <!-- TITLE -->
+    <section class="hero is-success">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">Resolved Issues</h1>
+            </div>
+        </div>
+    </section>
+    <!-- LIST ALL ISSUES -->
+    {% for issue in issues %}
+        {% if issue.resolved %}
+        <div class="container mt-5 mb-5">
+            <div class="card">
+                <div class="card-content">
+                    <p class="title">
+                        {{ issue.name }}
+                    </p>
+                    <p class="subtitle">
+                        {{ issue.description }} {{ issue.resolved }}
+                    </p>
+                    {% for tag in issue.tags %}
+                        <span class="tag is-info">
+                            {{ tag }}
+                        </span>
+                    {% endfor %}
+                </div>
+                <footer class="card-footer">
+                    <p class="card-footer-item has-background-danger">
+                    <span>
+                        <a href='/delete/{{ issue._id }}' class="has-text-danger-light">Delete</a>
+                    </span>
+                    </p>
+                    <p class="card-footer-item has-background-warning">
+                    <span>
+                        <a href='/return_issue/{{ issue._id }}' class="has-text-warning-dark">Mark as issue</a>
+                    </span>
+                    </p>
+                </footer>
+            </div>
+        </div>
+        {% endif %}
+    {% endfor %}
+    <!-- IN THE CASE THERE ARE NO ISSUES! -->
+        <section class="hero is-info mt-3">
+            <div class="hero-body">
+                <div class="container">
+                    <h1 class="title">You've reached the end of your issues!</h1>
+                </div>
+            </div>
+        </section>
+{% endblock %}

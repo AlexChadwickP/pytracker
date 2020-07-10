@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    {% if title %}
+    <title>{{ title }}</title>
+    {% else %}
+    <title></title>
+    {% endif %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.0/css/bulma.min.css" />
+  </head>
+  <body class="has-background-dark">
+    <nav class="navbar" role="navigation" aria-label="main navigation" class="has-background-dark">
+  <div class="navbar-brand has-background-dark">
+    <a class="navbar-item" href="https://bulma.io">
+      <h1 class="title is-family-monospace has-text-light">Bug Tracker</h1>
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div class="navbar-menu has-background-dark has-text-light">
+    <div class="navbar-start">
+      <a class="navbar-item" id="home" href="/">
+        Home
+      </a>
+
+      <a class="navbar-item" id="issues" href="/issues">
+        Issues
+      </a>
+
+      <a class="navbar-item" id="resolved" href="/resolved">
+        Resolved
+      </a>
+    </div>
+  </div>
+</nav>
+      {% block content %}{% endblock %}
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+  // Get all "navbar-burger" elements
+  const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+  // Check if there are any navbar burgers
+  if ($navbarBurgers.length > 0) {
+
+    // Add a click event on each of them
+    $navbarBurgers.forEach( el => {
+      el.addEventListener('click', () => {
+
+        // Get the target from the "data-target" attribute
+        const target = el.dataset.target;
+        const $target = document.getElementById(target);
+
+        // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+        el.classList.toggle('is-active');
+        $target.classList.toggle('is-active');
+
+      });
+    });
+  }
+
+});
+      </script>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+  </body>
+</html>
